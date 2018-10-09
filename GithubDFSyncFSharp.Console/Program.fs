@@ -4,6 +4,7 @@ open System
 open FSharp.Data
 open System.IO
 open System.Collections.Immutable
+open Types
 
 [<Literal>]
 let pushPayloadSample = """
@@ -25,31 +26,6 @@ let pushPayloadSample = """
 """
 
 type GitHubPushPayload = JsonProvider<pushPayloadSample>
-
-type Operation = Add | Modify | Remove
-
-type GitHubFile = 
-    | AddedFile of string * string
-    | ModifiedFile of string * string 
-    | RemovedFile of string
-    
-type HtmlCssEntity = 
-    {
-        Name:string
-        Html: string option
-        Css: string option
-    }
-
-type Scenario =
-    {
-        Name:string
-        Script:string option
-    }
-
-type DFEntity = 
-    | Scenario of Scenario*Operation
-    | Overlay of HtmlCssEntity*Operation
-    | Invite of HtmlCssEntity*Operation
 
 let downloadFileContent path =
     Http.RequestString ("https://raw.githubusercontent.com/Ten1n/DigitalFeedback/master/" + path)
